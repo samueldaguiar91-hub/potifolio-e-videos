@@ -2,14 +2,22 @@
 $dataFile = 'data.json';
 $uploadDir = 'uploads/';
 
-if (!file_exists($uploadDir)) {
-    mkdir($uploadDir, 0777, true);
+// Cria a pasta uploads se não existir
+if (!is_dir($uploadDir)) {
+    if(!mkdir($uploadDir, 0777, true)) {
+        die("Erro ao criar a pasta de uploads.");
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
     $fileName = basename($_FILES['file']['name']);
     $fileType = $_FILES['file']['type'];
     $targetPath = $uploadDir . time() . "_" . $fileName;
+
+    // Verifica se o arquivo foi enviado corretamente
+    if (!is_uploaded_file($_FILES['file']['tmp_name'])) {
+        die("Nenhum arquivo enviado ou erro no upload.");
+    }
 
     if (move_uploaded_file($_FILES['file']['tmp_name'], $targetPath)) {
         $newEntry = [
@@ -31,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
         header('Location: index.php');
         exit;
     } else {
-        echo "Erro ao enviar o arquivo.";
+        die("Erro ao mover o arquivo para a pasta uploads. Verifique permissões.");
     }
 }
 ?>
