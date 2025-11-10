@@ -35,10 +35,22 @@ input, textarea { width:100%; padding:10px; margin-bottom:10px; border-radius:10
 button { padding:10px 20px; border:none; border-radius:15px; background:#ff69b4; color:#fff; font-weight:bold; cursor:pointer; transition:0.3s; }
 button:hover { background:#ff85c1; }
 .gallery { display:flex; flex-wrap:wrap; gap:20px; justify-content:center;}
-.item { background:rgba(255,255,255,0.05); padding:10px; border-radius:15px; width:300px; text-align:center;}
+.item { background:rgba(255,255,255,0.05); padding:10px; border-radius:15px; width:300px; text-align:center; position:relative; }
 .item video, .item img { width:100%; border-radius:15px; }
 .item h3 { margin-top:10px; }
 .item p { font-size:0.9em; color:#ccc; }
+.item a.delete-btn { 
+    display:inline-block; 
+    margin-top:10px; 
+    padding:5px 10px; 
+    background:#ff4d4d; 
+    color:#fff; 
+    border-radius:10px; 
+    text-decoration:none; 
+    font-weight:bold; 
+    transition:0.3s; 
+}
+.item a.delete-btn:hover { background:#ff6b6b; }
 .contacts { text-align:center; padding:40px 20px; }
 .contacts a { display:inline-block; margin:10px 15px; padding:12px 25px; border:2px solid #fff; border-radius:25px; text-decoration:none; color:#fff; font-weight:bold; transition:0.3s; }
 .contacts a:hover { background:#fff; color:#06132f; }
@@ -72,6 +84,9 @@ footer { text-align:center; padding:20px; color:#ccc; margin-top:40px; }
         <?php endif; ?>
         <h3><?php echo htmlspecialchars($m['title']); ?></h3>
         <p><?php echo htmlspecialchars($m['description']); ?></p>
+
+        <!-- Botão de excluir -->
+        <a class="delete-btn" href="delete.php?file=<?php echo basename($m['path']); ?>" onclick="return confirm('Excluir este arquivo?')">Excluir</a>
     </div>
 <?php endforeach; ?>
 </div>
@@ -87,3 +102,4 @@ footer { text-align:center; padding:20px; color:#ccc; margin-top:40px; }
 
 </body>
 </html>
+
